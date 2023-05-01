@@ -1,5 +1,4 @@
-{
-	"files": [
+ [
 		{
 			"name": "file1.txt",
 			"url": "https://example.com/file1.txt"
@@ -12,5 +11,4 @@
 			"name": "file3.pdf",
 			"url": "https://example.com/file3.pdf"
 		}
-	]
-}
+]
