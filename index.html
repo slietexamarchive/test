@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
 	<title>File Search</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<style>
+		/* Add your CSS styles here */
+	</style>
 </head>
 <body>
-	<div class="container">
-		<h1>File Search</h1>
-		<form method="post" action="search.php" id="search-form">
-			<label for="search-text">Search:</label>
-			<input type="text" id="search-text" name="search-text">
-			<button type="submit">Search</button>
-		</form>
-		<ul id="file-list"></ul>
-	</div>
-	<scriptt> 
+	<h1>File Search</h1>
+	<input type="text" id="searchInput" placeholder="Search for a file...">
+	<button type="button" onclick="searchFiles()">Search</button>
+	<ul id="searchResults"></ul>
+	<script>
 		// Get references to the form and file list elements
 const form = document.getElementById('search-form');
 const fileList = document.getElementById('file-list');
@@ -49,6 +47,7 @@ form.addEventListener('submit', (event) => {
 		})
 		.catch(error => console.error(error));
 });
-		</script>
+
+	</script>
 </body>
 </html>
