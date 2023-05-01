@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Files</title>
+    <style>
+      /* CSS styles here */
+    </style>
+  </head>
+  <body>
+    <h1>Search Files</h1>
+    <form>
+      <label for="search">Search:</label>
+      <input type="text" id="search" name="search">
+      <button type="submit">Submit</button>
+    </form>
+    <div id="results"></div>
+    <script>
+      const form = document.querySelector('form');
+      const results = document.querySelector('#results');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const search = document.querySelector('#search').value;
+
+        if (search.trim() === '') {
+          results.style.display = 'none';
+          return;
+        }
+
+        results.innerHTML = 'Searching...';
+        results.style.display = 'block';
+
+        const response = await fetch(`/search.php?q=${encodeURIComponent(search)}`);
+        const files = await response.json();
+
+        let html = '<ul>';
+        for (const file of files) {
+          html += `<li><a href="/files/${encodeURIComponent(file)}" download>${file}</a></li>`;
+        }
+        html += '</ul>';
+
+        results.innerHTML = html;
+      });
+    </script>
+  </body>
+</html>
