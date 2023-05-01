@@ -1,15 +1,26 @@
 <?php
-if (isset($_GET['search'])) {
-    $query = $_GET['search'];
-    $filelist = json_decode(file_get_contents('filelist.json'), true);
+	// Read the JSON file and decode its contents into an array
+	$jsonString = file_get_contents('files.json');
+	$data = json_decode($jsonString, true);
 
-    foreach ($filelist as $file) {
-        if (strpos($file['name'], $query) !== false) {
-            echo '<tr>';
-            echo '<td>' . $file['name'] . '</td>';
-            echo '<td><a href="' . $file['link'] . '">Download</a></td>';
-            echo '</tr>';
-        }
-    }
-}
+	// Check if the search query is set in the URL parameters
+	if (isset($_GET['q'])) {
+		$searchQuery = $_GET['q'];
+
+		// Filter the results based on the search query
+		$filteredData = array_filter($data, function($file) use ($searchQuery) {
+			return stripos($file['name'], $searchQuery) !== false;
+		});
+
+		// Generate the HTML view for the filtered results
+		if (!empty($filteredData)) {
+			echo '<ul>';
+			foreach ($filteredData as $file) {
+				echo '<li><a href="' . $file['link'] . '">' . $file['name'] . '</a></li>';
+			}
+			echo '</ul>';
+		} else {
+			echo '<p>No results found.</p>';
+		}
+	}
 ?>
