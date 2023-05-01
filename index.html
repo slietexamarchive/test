@@ -1,17 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
 	<title>File Search</title>
 	<style>
-		/* Add your CSS styles here */
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
+		input[type="text"] {
+			padding: 10px;
+			width: 400px;
+			font-size: 16px;
+			border-radius: 5px;
+			border: none;
+			margin-bottom: 20px;
+		}
+		table {
+			border-collapse: collapse;
+			width: 600px;
+		}
+		table, th, td {
+			border: 1px solid black;
+		}
+		th, td {
+			padding: 10px;
+			text-align: left;
+		}
+		a {
+			text-decoration: none;
+			color: blue;
+		}
 	</style>
 </head>
 <body>
-	<h1>File Search</h1>
-	<input type="text" id="searchInput" placeholder="Search for a file...">
-	<button type="button" onclick="searchFiles()">Search</button>
-	<ul id="searchResults"></ul>
-	<script src="search.js"></script>
+	<div class="container">
+		<h1>File Search</h1>
+		<form method="get">
+			<input type="text" name="search" placeholder="Search files...">
+			<input type="submit" value="Search">
+		</form>
+		<table>
+			<thead>
+				<tr>
+					<th>File Name</th>
+					<th>Download Link</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php include 'search.php'; ?>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
