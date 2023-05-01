@@ -2,56 +2,39 @@
 <html>
 <head>
 	<title>File Search</title>
-	<style>
-		.container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			margin-top: 50px;
-		}
-		input[type="text"] {
-			padding: 10px;
-			width: 400px;
-			font-size: 16px;
-			border-radius: 5px;
-			border: none;
-			margin-bottom: 20px;
-		}
-		table {
-			border-collapse: collapse;
-			width: 600px;
-		}
-		table, th, td {
-			border: 1px solid black;
-		}
-		th, td {
-			padding: 10px;
-			text-align: left;
-		}
-		a {
-			text-decoration: none;
-			color: blue;
-		}
-	</style>
 </head>
 <body>
-	<div class="container">
-		<h1>File Search</h1>
-		<form method="get">
-			<input type="text" name="search" placeholder="Search files...">
-			<input type="submit" value="Search">
-		</form>
-		<table>
-			<thead>
-				<tr>
-					<th>File Name</th>
-					<th>Download Link</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php include 'search.php'; ?>
-			</tbody>
-		</table>
-	</div>
+	<h1>File Search</h1>
+	<form action="" method="GET">
+		<label for="search-input">Search:</label>
+		<input type="text" id="search-input" name="q" placeholder="Enter a file name">
+		<button type="submit">Search</button>
+	</form>
+	<?php
+		// Read the JSON file and decode its contents into an array
+		$jsonString = file_get_contents('files.json');
+		$data = json_decode($jsonString, true);
+
+		// Check if the search query is set in the URL parameters
+		if (isset($_GET['q'])) {
+			$searchQuery = $_GET['q'];
+
+			// Filter the results based on the search query
+			$filteredData = array_filter($data, function($file) use ($searchQuery) {
+				return stripos($file['name'], $searchQuery) !== false;
+			});
+
+			// Display the filtered results as a list
+			if (!empty($filteredData)) {
+				echo '<ul>';
+				foreach ($filteredData as $file) {
+					echo '<li><a href="' . $file['link'] . '">' . $file['name'] . '</a></li>';
+				}
+				echo '</ul>';
+			} else {
+				echo '<p>No results found.</p>';
+			}
+		}
+	?>
 </body>
 </html>
